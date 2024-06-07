@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-leftside">
+        <a href="#" class="logo-link"></a>
+        <div class="header-menu-item">
+          <a href="/<%= username %>">Perfil</a>
+        </div>
+        <div class="header-menu-item">
+          <a href="mercados">Mercados</a>
+        </div>
+        <!-- <div class="header-menu-item">
+          <a href="/<%= username %>/about">Sobre nosotros</a>
+        </div> -->
+      </div>
+      <div class="header-rightside">
+        <div class="header-menu-item">
+          <button type="submit" id="logoutBtn" class="btn-primary">
+            Cerrar Sesion
+          </button>
+        </div>
+        <div class="header-menu-item">
+          <div class="language-menu">
+            <i id="langs" class="bx bx-world"></i>
+            <div>
+              <div class="language">Inglés</div>
+              <div class="language">Españól</div>
+            </div>
+          </div>
+          <div class="currency-menu">
+            <i id="currencies" class="bx bx-coin-stack"></i>
+            <div>
+              <div class="currency">Inglés</div>
+              <div class="currency">Españól</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="profile">
+      <h1>Mercados</h1>
+      <div class="trading-widget">
+        <script
+          type="text/javascript"
+          src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+          async
+        >
+            {
+            "symbols": [
+              {
+                "proName": "FOREXCOM:SPXUSD",
+                "title": "S&P 500 Index"
+              },
+              {
+                "proName": "FOREXCOM:NSXUSD",
+                "title": "US 100 Cash CFD"
+              },
+              {
+                "proName": "FX_IDC:EURUSD",
+                "title": "EUR to USD"
+              }
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "colorTheme": "dark",
+            "locale": "es"
+          }
+        </script>
+      </div>
+      <div class="markets-header">
+        <div>
+          <div class="coin-name-column">
+            <div>Nombre</div>
+          </div>
+          <div class="coin-price-column">Precio</div>
+          <div class="coin-change-column">Cambio 24h</div>
+          <div class="coin-volume-column">Volumen</div>
+        </div>
+      </div>
+      <div class="markets-list">
+        <a href="/<%=username%>/mercados/BTCEUR">
+          <div class="btc">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC.svg"
+                  alt="BTC"
+                  class="rounded-full"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">BTC</div>
+                <div class="full-name">Bitcoin</div>
+              </div>
+            </div>
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/ETHEUR">
+          <div class="eth">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCETH--big.svg"
+                  loading="lazy"
+                  alt="ETH"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">ETH</div>
+                <div class="full-name">Ethereum</div>
+              </div>
+            </div>
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/BNBEUR">
+          <div class="bnb">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBNB--big.svg"
+                  loading="lazy"
+                  alt="BNB"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">BNB</div>
+                <div class="full-name">BNB</div>
+              </div>
+            </div>
+
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/SOLEUR">
+          <div class="sol">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCSOL--big.svg"
+                  loading="lazy"
+                  alt="SOL"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">SOL</div>
+                <div class="full-name">Solana</div>
+              </div>
+            </div>
+
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/XRPEUR">
+          <div class="xrp">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCXRP--big.svg"
+                  loading="lazy"
+                  alt="XRP"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">XRP</div>
+                <div class="full-name">Ripple</div>
+              </div>
+            </div>
+
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/ADAEUR">
+          <div class="ada">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCADA--big.svg"
+                  loading="lazy"
+                  alt="ADA"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">ADA</div>
+                <div class="full-name">Cardano</div>
+              </div>
+            </div>
+
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/TRXEUR">
+          <div class="trx">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCTRX--big.svg"
+                  loading="lazy"
+                  alt="TRX"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">TRX</div>
+                <div class="full-name">Tron</div>
+              </div>
+            </div>
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/LTCEUR">
+          <div class="ltc">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCLTC--big.svg"
+                  loading="lazy"
+                  alt="LTC"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">LTC</div>
+                <div class="full-name">Litecoin</div>
+              </div>
+            </div>
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+        <a href="/<%=username%>/mercados/DOTEUR">
+          <div class="dot">
+            <div class="coin-profile">
+              <div class="coin-icon">
+                <img
+                  src="https://s3-symbol-logo.tradingview.com/crypto/XTVCDOT--big.svg"
+                  loading="lazy"
+                  alt="DOT"
+                  class="rounded-full css-17hofng"
+                />
+              </div>
+              <div class="coin-name">
+                <div class="short-name">DOT</div>
+                <div class="full-name">Polkadot</div>
+              </div>
+            </div>
+            <div class="coin-price"><label for="coin-price"></label></div>
+            <div class="coin-change"><label for="coin-change"></label></div>
+            <div class="coin-volume"><label for="coin-volume"></label></div>
+          </div>
+        </a>
+      </div>
+    </main>
+    <script>
+      const marketData = <%-JSON.stringify(data)%>;
+      marketData.forEach((coin) => {
+        const { symbol, weightedAvgPrice, priceChangePercent, volume } = coin;
+        const coinElement = document.querySelector(`.${symbol.substring(0,3).toLowerCase()}`);
+
+        if (coinElement) {
+          coinElement.querySelector('.coin-price label').innerText = weightedAvgPrice;
+          coinElement.querySelector('.coin-change label').innerText = `${priceChangePercent}%`;
+          coinElement.querySelector('.coin-volume label').innerText = volume;
+        }
+      });
+      const markets = [
+        "btceur",
+        "etheur",
+        "bnbeur",
+        "soleur",
+        "xrpeur",
+        "adaeur",
+        "trxeur",
+        "ltceur",
+        "fileur",
+        "doteur",
+      ];
+      markets.forEach((market) => {
+        let socketUri = `wss://stream.binance.com:9443/ws/${trade}@trade`;
+        let ws = new WebSocket(socketUri);
+        ws.onmessage = (e) => {};
+      });
+    </script>
+    <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>

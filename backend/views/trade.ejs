@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-leftside">
+        <a href="#" class="logo-link"></a>
+        <div class="header-menu-item">
+          <a href="/<%= username %>/">Perfil</a>
+        </div>
+        <div class="header-menu-item">
+          <a href="/<%= username %>/mercados">Mercados</a>
+        </div>
+        <!-- <div class="header-menu-item">
+          <a href="/<%= username %>/about">Sobre nosotros</a>
+        </div> -->
+      </div>
+      <div class="header-rightside">
+        <div class="header-menu-item">
+          <button type="submit" id="logoutBtn" class="btn-primary">
+            Cerrar Sesion
+          </button>
+        </div>
+        <div class="header-menu-item">
+          <div class="language-menu">
+            <i id="langs" class="bx bx-world"></i>
+            <div>
+              <div class="language">Inglés</div>
+              <div class="language">Españól</div>
+            </div>
+          </div>
+          <div class="currency-menu">
+            <i id="currencies" class="bx bx-coin-stack"></i>
+            <div>
+              <div class="currency">Inglés</div>
+              <div class="currency">Españól</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="profile">
+      <div id="trade">
+        <h2 class="current-trade"></h2>
+      </div>
+      <div class="trade-container">
+        <div id="chart-container"></div>
+        <div class="price-container">
+          <label for="price-container" id="priceText"></label>
+          <label id="percentage-gain-loose"></label>
+          <div class="buy-sell-container">
+            <form>
+              <span class="input-wrapper">
+                <button id="decrement">-</button>
+                <input type="number" value="1" id="quantity" min="1" />
+                <button id="increment">+</button>
+              </span>
+              <button class="buy-btn">Comprar</button>
+              <button class="sell-btn">Vender</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://unpkg.com/lightweight-charts@3.6.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const trade = "<%-trade%>".toLocaleLowerCase();
+        const data = <%- JSON.stringify(data) %>;
+        const priceText = document.querySelector("#priceText");
+        const gainLoseText = document.querySelector("#percentage-gain-loose");
+        const currentTrade = document.querySelector(".current-trade");
+        priceText.innerHTML=parseFloat("<%-last%>").toFixed()+"€";
+        gainLoseText.innerHTML="+0.0%";
+        currentTrade.innerHTML=trade.substring(0,3).toUpperCase()+'/'+trade.substring(3).toUpperCase();
+        const chartProperties = {
+          width: 1250,
+          height: 600,
+          timeScale: {
+            timeVisible: true,
+            secondsVisible: false,
+          },
+          layout: {
+            textColor: "white",
+            background: { type: "solid", color: "dark" },
+          },
+        };
+
+        const chartContainer = document.querySelector("#chart-container");
+        const chart = LightweightCharts.createChart(
+          chartContainer,
+          chartProperties
+        );
+
+        const currentLocale = window.navigator.languages[0];
+        const myPriceFormatter = Intl.NumberFormat(currentLocale, {
+          style: "currency",
+          currency: "EUR",
+        }).format;
+
+        chart.applyOptions({
+          localization: {
+            priceFormatter: myPriceFormatter,
+          },
+        });
+        const candleSeries = chart.addCandlestickSeries();
+        candleSeries.setData(data);
+        const socketUri = `wss://stream.binance.com:9443/ws/${trade}@trade`;
+        const ws = new WebSocket(socketUri);
+        let open = "";
+        let timeOpen = 0;
+        let lastPrice = parseFloat("<%-last%>");
+        let gainLose = 0;
+        ws.onmessage = (e) => {
+          console.log(e)
+            let updatedPrice = JSON.parse(e.data);
+            let price = parseFloat(updatedPrice.p).toFixed(2);
+            priceText.innerHTML=price+"€";
+             let color = !lastPrice || lastPrice ===price? "#FCBE24" : price > lastPrice ? "#808000":"#C22E0E";
+            gainLose = ((price-lastPrice)/lastPrice)*100
+            gainLoseText.innerHTML=gainLose>0? "+"+parseFloat(gainLose).toFixed(2)+"%":"-"+parseFloat(gainLose).toFixed(2)+"%";
+            priceText.style.color = color;
+            gainLoseText.style.color = color;
+            lastPrice=price;
+            open = open? open:price;
+            timeOpen = timeOpen? timeOpen:updatedPrice.T;
+            if(timeOpen + 10000 <= updatedPrice.T){
+                candleSeries.update({time:updatedPrice.T, open:open, high:updatedPrice.p, low:updatedPrice.p, close:updatedPrice.p});
+                open="";
+                timeOpen=0;
+            }
+
+        };
+        chart.timeScale().fitContent();
+
+        const sub = document.querySelector("#decrement");
+        const add = document.querySelector("#increment");
+        let quantity = document.getElementById('quantity').value;
+        const sellButton = document.querySelector(".sell-btn")
+        const buyButton = document.querySelector(".buy-btn")
+        async function submitOperation(type) {
+          console.log("me llaman");
+            const username = "<%- username %>";
+            console.log(username)
+            console.log(trade)
+            quantity = document.getElementById('quantity').value
+            const price = lastPrice;
+            const response = await fetch("/operations", {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                name: trade.toUpperCase(),
+                price: price,
+                quantity: quantity,
+                type: type
+                })
+            });
+            if (response.ok) {
+                alert('Operación creada');
+            } else {
+                alert('Operación fallida');
+            }
+        }
+        sellButton.addEventListener("click", async (e)=>{
+          e.preventDefault();
+          await submitOperation("sell");
+        })
+        buyButton.addEventListener("click", async (e)=>{
+          e.preventDefault();
+          await submitOperation("buy");
+        })
+      });
+    </script>
+    <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>

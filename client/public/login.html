@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TP - Login</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="loginForm">
+        <h1>Iniciar Sesion</h1>
+        <div class="input-box">
+          <i class="bx bxs-envelope"></i>
+          <input type="email" name="email" placeholder="Correo" required />
+        </div>
+        <div class="input-box">
+          <i class="bx bxs-key"></i>
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            required
+          />
+        </div>
+        <div class="forgot">
+          <a href="/forgot">¿Olvidaste tu contraseña?</a>
+        </div>
+        <button type="submit" class="btn">Iniciar sesión</button>
+        <div class="register-link">
+          <p>
+            ¿Todavía no tienes una cuenta?
+            <a href="/register">Registrarme</a>
+          </p>
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

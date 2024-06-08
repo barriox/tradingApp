@@ -101,15 +101,19 @@ export class OperationController {
     const wallet = await this.walletController.getWallet({ userid });
     const currentFunds = wallet.funds;
     const generatedFunds = wallet.totalGenerated;
+    const investedFunds =
+      generatedFunds > currentFunds ? generatedFunds - currentFunds : 0;
     const coins = Array.from(wallet.coins.keys());
     const currentPrices = await this.fetchCurrentPrices(coins);
     const statistics = {};
+    let totalMarketValue = 0;
     for (let coin of coins) {
       const buyOperations = await this.OperationModel.find({
         userid,
         name: coin,
         type: "buy",
       }).sort({ createdAt: 1 });
+
       const sellOperations = await this.OperationModel.find({
         userid,
         name: coin,
@@ -131,7 +135,7 @@ export class OperationController {
       const avgBuyingPrice = totalCost / totalAmountBought;
       const currentPrice = currentPrices[coin] || 0;
       const currentMarketValue = remainingQuantity * currentPrice;
-
+      totalMarketValue += currentMarketValue;
       const percentageChange =
         ((currentPrice - avgBuyingPrice) / avgBuyingPrice) * 100;
 
@@ -141,26 +145,33 @@ export class OperationController {
       statistics[coin] = {
         totalAmountHeld: remainingQuantity,
         avgBuyingPrice,
-        currentMarketValue, //totalInvested
-        percentageChange, //%gainLoseInvested
-        totalValueChange, //priceChangeInvested
+        currentMarketValue,
+        percentageChange,
+        totalValueChange,
       };
     }
-    let sumCurrentMarketValue = 0;
-    let sumPercentageChange = 0;
-    let sumTotalValueChange = 0;
 
-    for (const coin in statistics) {
-      sumCurrentMarketValue += coin.currentMarketValue;
-      sumPercentageChange += coin.percentageChange;
-      sumTotalValueChange += coin.totalValueChange;
+    let sumCurrentMarketValue = 0;
+    let sumTotalValueChange = 0;
+    let weightedPercentageChange = 0;
+
+    for (let c in statistics) {
+      sumCurrentMarketValue += statistics[c].currentMarketValue;
+      sumTotalValueChange += statistics[c].totalValueChange;
+      let weight = statistics[c].currentMarketValue / totalMarketValue;
+      weightedPercentageChange += statistics[c].percentageChange * weight;
     }
+
     res.status(200).json({
-      currentMarketValue: sumCurrentMarketValue,
-      percentageChange: sumPercentageChange,
-      totalValueChange: sumTotalValueChange,
-      currentFunds: currentFunds,
-      generatedFunds: generatedFunds,
+      currentMarketValue: sumCurrentMarketValue.toFixed(2),
+      percentageChange: weightedPercentageChange.toFixed(2),
+      totalValueChange: sumTotalValueChange.toFixed(2),
+      currentFunds: currentFunds.toFixed(2),
+      generatedFunds: generatedFunds.toFixed(2),
+      investedFunds: (
+        (generatedFunds - currentFunds) *
+        ((100 + weightedPercentageChange) / 100)
+      ).toFixed(2),
     });
   };
 }

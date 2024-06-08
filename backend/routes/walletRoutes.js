@@ -12,9 +12,10 @@ export const createWalletRouter = (WalletModel) => {
   walletRouter.get("/wallet/:userid", verifyToken, (req, res) =>
     walletController.getWallet(req, res)
   );
-  walletRouter.post("/wallet/generate", verifyToken, (req, res) =>
-    walletController.addFunds(req, res)
-  );
+  walletRouter.post("/wallet/generate", verifyToken, (req, res) => {
+    console.log(req);
+    walletController.addFunds(req, res);
+  });
   return walletRouter;
 };
 

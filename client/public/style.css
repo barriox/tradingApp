@@ -315,7 +315,7 @@ h3 {
   justify-content: center;
   align-content: center;
   margin-top: 200px;
-  height: 50vh;
+  height: fit-content;
   background: transparent;
   border: 1px solid var(--color-line);
   backdrop-filter: blur(20px);

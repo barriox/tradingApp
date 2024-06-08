@@ -1,7 +1,7 @@
 import cron from "node-cron";
-const { fetchAllMarketsData } = require("../services/marketService");
+import { fetchAllMarketsData } from "../controllers/marketController.js";
 
-cron.schedule("0 * * * *", async () => {
+cron.schedule("* * * * *", async () => {
   console.log("Fetching market data...");
   const marketDataArray = await fetchAllMarketsData();
   marketDataArray.forEach((marketData) => {

@@ -287,9 +287,9 @@
         const coinElement = document.querySelector(`.${symbol.substring(0,3).toLowerCase()}`);
 
         if (coinElement) {
-          coinElement.querySelector('.coin-price label').innerText = weightedAvgPrice;
+          coinElement.querySelector('.coin-price label').innerText = parseFloat(weightedAvgPrice).toFixed(2);
           coinElement.querySelector('.coin-change label').innerText = `${priceChangePercent}%`;
-          coinElement.querySelector('.coin-volume label').innerText = volume;
+          coinElement.querySelector('.coin-volume label').innerText = parseFloat(volume).toFixed(2);
         }
       });
       const markets = [
@@ -305,9 +305,15 @@
         "doteur",
       ];
       markets.forEach((market) => {
-        let socketUri = `wss://stream.binance.com:9443/ws/${trade}@trade`;
-        let ws = new WebSocket(socketUri);
-        ws.onmessage = (e) => {};
+        let ws = new WebSocket(`wss://stream.binance.com:9443/ws/${market}@trade`);
+        ws.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          const coinElement = document.querySelector(`.${market.substring(0,3).toLowerCase()}`);
+          if (coinElement) {
+            coinElement.querySelector('.coin-price label').innerText = message.p.toFixed(2);
+          }
+        };
+
       });
     </script>
     <script type="text/javascript" src="/script.js"></script>

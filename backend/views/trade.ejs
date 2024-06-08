@@ -68,6 +68,7 @@
       </div>
     </main>
     <script src="https://unpkg.com/lightweight-charts@3.6.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const trade = "<%-trade%>".toLocaleLowerCase();
@@ -144,10 +145,7 @@
         const sellButton = document.querySelector(".sell-btn")
         const buyButton = document.querySelector(".buy-btn")
         async function submitOperation(type) {
-          console.log("me llaman");
             const username = "<%- username %>";
-            console.log(username)
-            console.log(trade)
             quantity = document.getElementById('quantity').value
             const price = lastPrice;
             const response = await fetch("/operations", {
@@ -163,9 +161,21 @@
                 })
             });
             if (response.ok) {
-                alert('Operación creada');
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Operación realizada",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
             } else {
-                alert('Operación fallida');
+                Swal.fire({
+                  position: "top-end",
+                  icon: "error",
+                  title: "Operación no realizada",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
             }
         }
         sellButton.addEventListener("click", async (e)=>{

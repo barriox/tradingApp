@@ -25,13 +25,13 @@ export const createApp = async (userModel, OperationModel, WalletModel) => {
   app.use(cookieParser());
   app.set("view engine", "ejs");
   app.set("views", path.join(__dirname, "views"));
-  app.use(i18n.init);
+  //app.use(i18n.init);
 
-  app.use((req, res, next) => {
+  /*app.use((req, res, next) => {
     const lang = req.cookies.lang || "es";
     i18n.setLocale(lang);
     next();
-  });
+  });*/
 
   app.use(express.static(path.join(__dirname, "../client/public")));
   app.get("/registro", (req, res) => {
@@ -46,11 +46,11 @@ export const createApp = async (userModel, OperationModel, WalletModel) => {
   app.use("/", createOperationRouter(OperationModel, WalletModel));
   app.use("/", createWalletRouter(WalletModel));
 
-  router.post("/set-lang", (req, res) => {
+  /*app.post("/set-lang", (req, res) => {
     const { lang } = req.body;
     res.cookie("lang", lang);
     res.redirect("back");
-  });
+  });*/
 
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/public/index.html"));

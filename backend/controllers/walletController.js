@@ -19,6 +19,8 @@ export class WalletController {
         return res.status(404).json({ error: "Wallet not found" });
       }
       wallet.funds += parseFloat(amount);
+      wallet.totalGenerated += parseFloat(amount);
+      console.log(wallet.totalGenerated);
       await wallet.save();
       res.status(200).json(wallet);
     } catch (error) {

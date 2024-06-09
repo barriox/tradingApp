@@ -40,6 +40,9 @@ export const createApp = async (userModel, OperationModel, WalletModel) => {
   app.get("/acceder", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/public/login.html"));
   });
+  app.get("/recuperar", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/public/newPassword.html"));
+  });
 
   app.use("/auth", createUserRouter(userModel, WalletModel));
   app.use("/", createMarketRouter());

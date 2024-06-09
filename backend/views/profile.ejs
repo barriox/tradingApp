@@ -171,56 +171,12 @@
           const seconds = String(date.getSeconds()).padStart(2, "0");
           return `${day}-${month}-${year}, ${hours}:${minutes}:${seconds}`;
         };
-        fundsButton.addEventListener("click", async (e) => {
-          e.preventDefault();
-          console.log("^^");
-          const userId = "<%= userId %>";
-          const amount = document.querySelector("#fundsQuantity").value;
-          console.log(amount);
-          try {
-            const response = await fetch("/wallet/generate", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ userid: userId, amount }),
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Operación realizada",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            } else {
-              Swal.fire({
-                position: "top-end",
-                icon: "error",
-                title: result.error,
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            }
-          } catch (error) {
-            Swal.fire({
-              position: "top-end",
-              icon: "error",
-              title: error.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        });
         const fetchMarkets = async () => {
           try {
             const response = await fetch("/<%= username %>/statistics", {
               method: "GET",
             });
             const result = await response.json();
-            console.log(result);
             const totFunds =
               parseFloat(result.currentFunds) +
               parseFloat(result.currentMarketValue);
@@ -290,6 +246,49 @@
         } catch (error) {
           console.log("Error:" + error.message);
         }
+        fundsButton.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const userId = "<%= userId %>";
+          const amount = document.querySelector("#fundsQuantity").value;
+          try {
+            const response = await fetch("/wallet/generate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ userid: userId, amount }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Fondos generados",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              fetchMarkets();
+            } else {
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Ha ocurrido un error al generar fondos",
+                text: result.error,
+                showConfirmButton: false,
+                timer: 3000,
+              });
+            }
+          } catch (error) {
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: error.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
       });
     </script>
     <script type="text/javascript" src="/script.js"></script>

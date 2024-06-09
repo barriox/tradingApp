@@ -22,6 +22,11 @@
       </div>
       <div class="header-rightside">
         <div class="header-menu-item">
+          <div class="current-funds-container">
+            Fondos: <label for="current-funds-container"></label>
+          </div>
+        </div>
+        <div class="header-menu-item">
           <button type="submit" id="logoutBtn" class="btn-primary">
             Cerrar Sesion
           </button>
@@ -51,18 +56,26 @@
       <div class="trade-container">
         <div id="chart-container"></div>
         <div class="price-container">
-          <label for="price-container" id="priceText"></label>
-          <label id="percentage-gain-loose"></label>
-          <div class="buy-sell-container">
-            <form>
-              <span class="input-wrapper">
-                <button id="decrement">-</button>
-                <input type="number" value="1" id="quantity" min="1" />
-                <button id="increment">+</button>
-              </span>
-              <button class="buy-btn">Comprar</button>
-              <button class="sell-btn">Vender</button>
-            </form>
+          <div class="current-price">
+            <label for="price-container" id="priceText"></label>
+            <label id="percentage-gain-loose"></label>
+          </div>
+          <div class="current-selection">
+            <div class="selected-price">
+              Coste:
+              <label for="selected-price"></label>
+            </div>
+            <div class="buy-sell-container">
+              <form>
+                <span class="input-wrapper">
+                  <button id="decrement">-</button>
+                  <input type="number" value="1" id="quantity" />
+                  <button id="increment">+</button>
+                </span>
+                <button class="buy-btn">Comprar</button>
+                <button class="sell-btn">Vender</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -71,6 +84,15 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        const getFunds = async () =>{
+          const response = await fetch("/wallet/getFunds", {
+            method: "GET"
+          });
+          const result = await response.json();
+          document.querySelector(".current-funds-container label").innerHTML=parseFloat(result).toFixed(2);
+        }
+        getFunds();
+
         const trade = "<%-trade%>".toLocaleLowerCase();
         const data = <%- JSON.stringify(data) %>;
         const priceText = document.querySelector("#priceText");
@@ -80,7 +102,7 @@
         gainLoseText.innerHTML="+0.0%";
         currentTrade.innerHTML=trade.substring(0,3).toUpperCase()+'/'+trade.substring(3).toUpperCase();
         const chartProperties = {
-          width: 1250,
+          width: 1150,
           height: 600,
           timeScale: {
             timeVisible: true,
@@ -141,10 +163,32 @@
 
         const sub = document.querySelector("#decrement");
         const add = document.querySelector("#increment");
-        let quantity = document.getElementById('quantity').value;
+        const  inputQuantity = document.querySelector('#quantity');
+
+        function updateTotalPrice() {
+          const q = parseFloat(inputQuantity.value);
+          const totalPrice = q * lastPrice;
+          document.querySelector(".selected-price label").innerHTML = totalPrice.toFixed(2);
+        }
+        add.addEventListener("click", (e) => {
+          e.preventDefault();
+          inputQuantity.value = parseInt(inputQuantity.value) + 1;
+          updateTotalPrice()
+        });
+        sub.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (parseInt(inputQuantity.value) - 1 >= 0.001)
+            inputQuantity.value = parseInt(inputQuantity.value) - 1;
+          else inputQuantity.value = 1;
+          updateTotalPrice()
+        });
+        inputQuantity.addEventListener("change", (e)=>{
+          updateTotalPrice();
+        });
+        updateTotalPrice();
         const sellButton = document.querySelector(".sell-btn")
         const buyButton = document.querySelector(".buy-btn")
-        async function submitOperation(type) {
+        const submitOperation = async (type) =>{
             const username = "<%- username %>";
             quantity = document.getElementById('quantity').value
             const price = lastPrice;
@@ -173,8 +217,9 @@
                   position: "top-end",
                   icon: "error",
                   title: "Operación no realizada",
+                  text: "Los fondos o monedas en posesión no son suficientes",
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 3000
                 });
             }
         }
@@ -186,6 +231,9 @@
           e.preventDefault();
           await submitOperation("buy");
         })
+
+
+
       });
     </script>
     <script type="text/javascript" src="/script.js"></script>

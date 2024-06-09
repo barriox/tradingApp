@@ -20,7 +20,6 @@ export class WalletController {
       }
       wallet.funds += parseFloat(amount);
       wallet.totalGenerated += parseFloat(amount);
-      console.log(wallet.totalGenerated);
       await wallet.save();
       res.status(200).json(wallet);
     } catch (error) {
@@ -36,6 +35,15 @@ export class WalletController {
     }
   };
 
+  getFunds = async (req, res) => {
+    const { userId } = req.body;
+    try {
+      const wallet = await this.walletModel.findOne({ userId });
+      res.status(200).json(wallet.funds);
+    } catch (error) {
+      throw new Error(`Error: ${error}`);
+    }
+  };
   hasEnoughFunds = async (userid, amount) => {
     const wallet = await this.walletModel.findOne({ userid });
     return wallet && wallet.funds >= amount;

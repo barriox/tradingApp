@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio sesión - Trading Playground</title>
+    <title><%= pageLogin %></title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" href="./images/logo.ico" />
   </head>
   <body>
     <div class="wrapper">
       <form id="loginForm">
-        <h1>Iniciar Sesion</h1>
-        <p class="error-submit"></p>
+        <h1><%= btnIndex1 %></h1>
         <div class="input-box">
           <i class="bx bxs-envelope"></i>
-          <input type="email" name="email" placeholder="Correo" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="<%= email %>"
+            required
+          />
         </div>
         <div class="input-box">
           <i class="bx bxs-key"></i>
@@ -30,13 +33,13 @@
           />
         </div>
         <div class="forgot">
-          <a href="recuperar">¿Olvidaste tu contraseña?</a>
+          <a href="/forgot"><%= passwordForgot %></a>
         </div>
-        <button type="submit" class="btn">Iniciar sesión</button>
+        <button type="submit" class="btn"><%= btnIndex1 %></button>
         <div class="register-link">
           <p>
-            ¿Todavía no tienes una cuenta?
-            <a href="/register">Registrarme</a>
+            <%= notAccount %>
+            <a href="/register"><%= btnIndex2 %></a>
           </p>
         </div>
       </form>

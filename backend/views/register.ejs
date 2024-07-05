@@ -1,50 +1,53 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro - Trading Playground</title>
+    <title><%= pageRegister %></title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" href="./images/logo.ico" />
   </head>
   <body>
     <div class="wrapper">
       <form id="registerForm">
-        <h1>Te damos la bienvenida a App</h1>
+        <h1><%= welcome %></h1>
         <div class="input-box">
           <i class="bx bxs-user"></i>
-          <input type="text" placeholder="Usuario" name="username" required />
+          <input
+            type="text"
+            placeholder="<%= user %>"
+            name="username"
+            required
+          />
         </div>
         <div class="input-box">
           <i class="bx bxs-envelope"></i>
-          <input type="email" placeholder="Correo" name="email" required />
+          <input
+            type="email"
+            placeholder="<%= email %>"
+            name="email"
+            required
+          />
         </div>
         <div class="input-box">
           <i class="bx bxs-envelope"></i>
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder="<%= password %>"
             name="password"
             required
           />
         </div>
         <div class="accept-policy">
           <input id="policy" type="checkbox" />
-          <label for="accept-policy">
-            Al crear una cuenta, acepto los
-            <a href="./privacyPolicy.html"
-              >Términos de servicio y la Política de privacidad</a
-            >
-            de esta aplicación.
-          </label>
+          <label for="accept-policy"> <%= acceptPolicy %> </label>
         </div>
-        <button type="submit" class="btn">Siguiente</button>
+        <button type="submit" class="btn"><%= continue %></button>
         <p id="isChecked"></p>
-        <p class="error-submit"></p>
+        <div id="errorSubmit"></div>
       </form>
     </div>
     <script type="text/javascript" src="script.js"></script>

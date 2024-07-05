@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TP - Nueva contraseña</title>
+    <link rel="stylesheet" type="text/css" href="src/style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form action="" method="post">
+        <h1><%= newPassMessage %></h1>
+        <div class="input-box">
+          <i class="bx bxs-key"></i>
+          <input type="password" placeholder="<%= newPass %>" required />
+        </div>
+        <div class="input-box">
+          <i class="bx bxs-key"></i>
+          <input type="password" placeholder="<%= repeatPass %>" required />
+        </div>
+        <button type="" class="btn"><%= continue %></button>
+      </form>
+    </div>
+    <script type="text/javascript" src="src/script.js"></script>
+  </body>
+</html>

@@ -9,7 +9,6 @@ import { corsMiddleware } from "./middlewares/corsMiddleware.js";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import i18n from "./middlewares/i18nMiddleware.js";
 
 export const createApp = async (userModel, OperationModel, WalletModel) => {
   const __filename = fileURLToPath(import.meta.url);
@@ -25,13 +24,6 @@ export const createApp = async (userModel, OperationModel, WalletModel) => {
   app.use(cookieParser());
   app.set("view engine", "ejs");
   app.set("views", path.join(__dirname, "views"));
-  //app.use(i18n.init);
-
-  /*app.use((req, res, next) => {
-    const lang = req.cookies.lang || "es";
-    i18n.setLocale(lang);
-    next();
-  });*/
 
   app.use(express.static(path.join(__dirname, "../client/public")));
   app.get("/registro", (req, res) => {
@@ -48,12 +40,6 @@ export const createApp = async (userModel, OperationModel, WalletModel) => {
   app.use("/", createMarketRouter());
   app.use("/", createOperationRouter(OperationModel, WalletModel));
   app.use("/", createWalletRouter(WalletModel));
-
-  /*app.post("/set-lang", (req, res) => {
-    const { lang } = req.body;
-    res.cookie("lang", lang);
-    res.redirect("back");
-  });*/
 
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/public/index.html"));

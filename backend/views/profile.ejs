@@ -1,46 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile</title>
+    <title>Perfil - Trading Playground</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="./images/logo.ico" />
   </head>
   <body>
     <header>
       <div class="header-leftside">
-        <a href="/<%= username %>/" class="logo-link"></a>
+        <a href="/<%= username %>/" class="logo-link">
+          <img src="/images/logo.png" alt="logo image" />
+        </a>
+        <label class="page-title">TRADING PLAYGROUND</label>
         <div class="header-menu-item">
           <a href="/<%= username %>/">Perfil</a>
         </div>
         <div class="header-menu-item">
           <a href="/<%= username %>/mercados">Mercados</a>
         </div>
-        <!-- <div class="header-menu-item">
-          <a href="/<%= username %>/about">Sobre nosotros</a>
-        </div> -->
+        <div class="header-menu-item">
+          <a href="/client/public/about.html">Sobre nosotros</a>
+        </div>
       </div>
       <div class="header-rightside">
         <div class="header-menu-item">
           <button type="submit" id="logoutBtn" class="btn-primary">
             Cerrar Sesion
           </button>
-        </div>
-        <div class="header-menu-item">
-          <div class="language-menu">
-            <i id="langs" class="bx bx-world"></i>
-            <div>
-              <div class="language">Inglés</div>
-              <div class="language">Españól</div>
-            </div>
-          </div>
-          <div class="currency-menu">
-            <i id="currencies" class="bx bx-coin-stack"></i>
-            <div>
-              <div class="currency">Inglés</div>
-              <div class="currency">Españól</div>
-            </div>
-          </div>
         </div>
       </div>
     </header>
@@ -95,13 +83,7 @@
               <form>
                 <span class="input-wrapper">
                   <button id="decrement">-</button>
-                  <input
-                    id="fundsQuantity"
-                    type="number"
-                    value="1"
-                    id="quantity"
-                    min="1"
-                  />
+                  <input type="number" value="1" id="quantity" min="1" />
                   <button id="increment">+</button>
                 </span>
                 <button id="fundsBtn">Generar fondos</button>
@@ -161,6 +143,9 @@
         const totalFundsInvested = document.querySelector(".statistic3");
         const percentageChange = document.querySelector(".statistic4");
         const totalPriceChange = document.querySelector(".statistic5");
+        const incrementButton = document.querySelector("#increment");
+        const decrementButton = document.querySelector("#decrement");
+        const quantityInput = document.querySelector("#quantity");
         const formatDate = (dateString) => {
           const date = new Date(dateString);
           const day = String(date.getDate()).padStart(2, "0");
@@ -171,6 +156,16 @@
           const seconds = String(date.getSeconds()).padStart(2, "0");
           return `${day}-${month}-${year}, ${hours}:${minutes}:${seconds}`;
         };
+        incrementButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+        decrementButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (parseInt(quantityInput.value) - 1 >= 1)
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+          else quantityInput.value = 1;
+        });
         const fetchMarkets = async () => {
           try {
             const response = await fetch("/<%= username %>/statistics", {
@@ -249,7 +244,7 @@
         fundsButton.addEventListener("click", async (e) => {
           e.preventDefault();
           const userId = "<%= userId %>";
-          const amount = document.querySelector("#fundsQuantity").value;
+          const amount = quantityInput.value;
           try {
             const response = await fetch("/wallet/generate", {
               method: "POST",

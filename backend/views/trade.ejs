@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile</title>
+    <title>Operar - Trading Playground</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="./images/logo.ico" />
   </head>
   <body>
     <header>
       <div class="header-leftside">
-        <a href="#" class="logo-link"></a>
+        <a href="#" class="logo-link"
+          ><img src="/images/logo.png" alt="logo image"
+        /></a>
+        <label class="page-title">TRADING PLAYGROUND</label>
         <div class="header-menu-item">
           <a href="/<%= username %>/">Perfil</a>
         </div>
         <div class="header-menu-item">
           <a href="/<%= username %>/mercados">Mercados</a>
         </div>
-        <!-- <div class="header-menu-item">
-          <a href="/<%= username %>/about">Sobre nosotros</a>
-        </div> -->
+        <div class="header-menu-item">
+          <a href="/client/public/about.html">Sobre nosotros</a>
+        </div>
       </div>
       <div class="header-rightside">
         <div class="header-menu-item">
@@ -30,22 +34,6 @@
           <button type="submit" id="logoutBtn" class="btn-primary">
             Cerrar Sesion
           </button>
-        </div>
-        <div class="header-menu-item">
-          <div class="language-menu">
-            <i id="langs" class="bx bx-world"></i>
-            <div>
-              <div class="language">Inglés</div>
-              <div class="language">Españól</div>
-            </div>
-          </div>
-          <div class="currency-menu">
-            <i id="currencies" class="bx bx-coin-stack"></i>
-            <div>
-              <div class="currency">Inglés</div>
-              <div class="currency">Españól</div>
-            </div>
-          </div>
         </div>
       </div>
     </header>
@@ -152,7 +140,7 @@
             lastPrice=price;
             open = open? open:price;
             timeOpen = timeOpen? timeOpen:updatedPrice.T;
-            if(timeOpen + 10000 <= updatedPrice.T){
+            if(timeOpen + 1000 <= updatedPrice.T){
                 candleSeries.update({time:updatedPrice.T, open:open, high:updatedPrice.p, low:updatedPrice.p, close:updatedPrice.p});
                 open="";
                 timeOpen=0;

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageIndexTitle %></title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-leftside">
+        <a href="#" class="logo-link"></a>
+        <div class="header-menu-item">
+          <a href="#"><%= menuIndex1 %></a>
+        </div>
+        <div class="header-menu-item">
+          <a href="#"><%= menuIndex2 %></a>
+        </div>
+      </div>
+      <div class="header-rightside">
+        <div class="header-menu-item">
+          <a id="toLogin" href="acceder">
+            <button class="btn-secondary"><%= btnIndex1 %></button>
+          </a>
+          <a id="toRegister" href="registro">
+            <button class="btn-primary"><%= btnIndex2 %></button>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-index">
+      <div class="main-content">
+        <h2><%= titleIndex1 %></h2>
+        <p><%= pIndex1 %></p>
+        <button><%= btnIndex2 %></button>
+        <button><%= menuIndex2 %></button>
+        <img
+          id="img-principal"
+          src="./images/252shots_so.png"
+          alt="App Image"
+          width="900"
+        />
+      </div>
+
+      <div class="features">
+        <div class="feature-item">
+          <h3><%= subTitleIndex1 %></h3>
+          <p><%= pIndex2 %></p>
+        </div>
+        <div class="feature-item">
+          <h3><%= subTitleIndex2 %></h3>
+          <p><%= pIndex3 %></p>
+        </div>
+        <div class="feature-item">
+          <h3><%= subTitleIndex3 %></h3>
+          <p><%= pIndex4 %></p>
+        </div>
+      </div>
+      <div class="app-section">
+        <img
+          src="./images/369shots_so.png"
+          id="mercados-img"
+          alt="App Image"
+          width="800"
+        />
+        <h2><%= titleIndex2 %></h2>
+      </div>
+      <div class="app-section2">
+        <h2><%= titleIndex3 %></h2>
+        <img
+          src="./images/32shots_so.png"
+          id="trade-img"
+          alt="App Image"
+          width="800"
+        />
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4><%= footerIndex1 %></h4>
+            <a href="#"><%= footerSubtitle1 %></a>
+            <a href="#"><%= footerSubtitle2 %></a>
+            <a href="#"><%= footerSubtitle3 %></a>
+          </div>
+          <div class="footer-section">
+            <h4><%= footerIndex2 %></h4>
+            <a href="#">info@tradingplayground.com</a>
+            <a href="#">+34 123 456 789</a>
+          </div>
+          <div class="footer-section">
+            <h4><%= footerIndex3 %></h4>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+        <p>footerMessage</p>
+      </footer>
+    </main>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
